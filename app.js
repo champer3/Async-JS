@@ -73,33 +73,60 @@
 
 console.log("start");
 
-// setTimeout(() => {
-//   console.log("We are in the timeOut");
-// }, 2000);
-
-function loginUser(email, password, callback) {
-  setTimeout(() => {
-    callback({ userEmail: email });
-  }, 2000);
+function loginUser(email, password) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ userEmail: email });
+    }, 2000);
+  });
 }
 
-function getUserVideos(email, callback) {
-  setTimeout(() => {
-    callback(["video1", "video2", "video3"]);
-  }, 1000);
+function getUserVideos(email) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(["video1", "video2", "video3"]);
+    }, 1000);
+  });
 }
+
+function videoDetails(email) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Title of the video");
+    }, 1000);
+  });
+}
+
+// const user = loginUser("stephen@gmail.com", "channsk");
+// user
+//   .then((user) => getUserVideos(user.userEmail))
+//   .then((videos) => videoDetails(videos[0]))
+//   .then((detail) => console.log(detail));
+
+async function displayUser() {
+  try {
+    const loggedUser = await loginUser("stephen", 1234433);
+    const videos = await getUserVideos(loggedUser.userEmail);
+    const details = await videoDetails(videos[0]);
+    console.log(details);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+displayUser();
 
 //Shitty callback hell
 
-const user = loginUser("stephen@gmail.com", "channsk", (user) => {
-  console.log(user);
-  getUserVideos(user.userEmail, (video) => {
-    console.log(video);
-  });
-});
-
-// const video = getUserVideos("stephen@gmail.com", (video) => {
-//   console.log(video);
+// const user = loginUser("stephen@gmail.com", "channsk", (user) => {
+//   console.log(user);
+//   getUserVideos(user.userEmail, (video) => {
+//     console.log(video);
+//     videoDetails(video[0], (title) => {
+//       console.log(title);
+//       console.log(video[0]);
+//     });
+//   });
 // });
 
 console.log("end");
