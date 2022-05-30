@@ -73,8 +73,33 @@
 
 console.log("start");
 
-setTimeout(() => {
-  console.log("We are in the timeOut");
-}, 2000);
+// setTimeout(() => {
+//   console.log("We are in the timeOut");
+// }, 2000);
+
+function loginUser(email, password, callback) {
+  setTimeout(() => {
+    callback({ userEmail: email });
+  }, 2000);
+}
+
+function getUserVideos(email, callback) {
+  setTimeout(() => {
+    callback(["video1", "video2", "video3"]);
+  }, 1000);
+}
+
+//Shitty callback hell
+
+const user = loginUser("stephen@gmail.com", "channsk", (user) => {
+  console.log(user);
+  getUserVideos(user.userEmail, (video) => {
+    console.log(video);
+  });
+});
+
+// const video = getUserVideos("stephen@gmail.com", (video) => {
+//   console.log(video);
+// });
 
 console.log("end");
